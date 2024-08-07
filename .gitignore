@@ -1,0 +1,8 @@
+### VisualStudioCode ###
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+
+### General ###
+.DS_Store
+build/*
