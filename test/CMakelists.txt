@@ -1,0 +1,14 @@
+# Add the Boost.Test library
+find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+
+# Add a test executable for each test file
+add_executable(TestBoard test_board.cpp)
+
+# Link test executable with Boost.Test and the BoardLib library
+target_link_libraries(TestBoard PRIVATE Boost::unit_test_framework BoardLib)
+
+# Specify include directories for tests
+target_include_directories(TestBoard PRIVATE ${CMAKE_SOURCE_DIR}/src)
+
+# Register the test with CTest
+add_test(NAME TestBoard COMMAND TestBOard --report_level=detailed)
