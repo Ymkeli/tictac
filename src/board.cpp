@@ -14,7 +14,7 @@ Board::Board(int r, int c) {
 }
 
 // Translate the player number in the grid into a player symbol for printing
-string player_tag(int x) {
+static string player_tag (int x) {
     switch (x) {
         case 0:
             return ".";
@@ -71,4 +71,25 @@ int Board::winner() const {
         return grid[0][2];
 
     return 0; //no winner    
+}
+
+string Board::to_string() const {
+    ostringstream oss;
+    oss << "[";
+
+    for (int i = 0; i < rows; ++i) {
+        oss << "[";
+        for (int j = 0; j < cols; ++j) {
+            oss << grid[i][j];
+            if (j < cols - 1) {
+                oss << ",";
+            }
+        }
+        oss << "]";
+        if (i < rows - 1) {
+            oss << ",";
+        }
+    }
+    oss << "]";
+    return oss.str();
 }

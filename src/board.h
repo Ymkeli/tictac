@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 class Board {
@@ -26,6 +27,9 @@ public:
 
     // Method to check for a winner
     int winner() const;
+
+    // Method to output the board as a string
+    string to_string() const;
 };
 
 #endif // BOARD_H

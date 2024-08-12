@@ -5,24 +5,19 @@
 #include "open_ai.h"
 using namespace std;
 
-string print_winner(int x, string name1, string name2) {
-    if (x == 1)
-        return name1;
-    else return name2;
-}
-
 int main() {
-    string response = request();
-    cout << response << endl;
     // Declare variables to hold the user's input
-    string name1, name2;
-    int age;
-    // Prompt the user for their name
-    cout << "Enter the name of player 1: ";
-    getline(cin, name1); // Read a line of text including spaces
+    string name;
+    short player; //1 or 2
 
-    cout << "Enter the name of player 2: ";
-    getline(cin, name2);
+    // Prompt the user for their name
+    cout << "Enter your name: ";
+    getline(cin, name); // Read a line of text including spaces
+
+    cout << "Which player do you want to be? (1 or 2)\n";
+    cin >> player;
+    // Discard the newline character left in the input buffer
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     Board board(3,3);
     board.print();
@@ -30,18 +25,37 @@ int main() {
     int currentPlayer = 1;
     for(int i = 0; i < 9; i++) {
         int w = board.winner();
-        if(w != 0) {
-            cout << "Congrats, " << print_winner(w, name1, name2) <<  ", you won the game!" << "\n";
+        if(w == player) {
+            cout << "Congrats, " << name <<  ", you won the game!" << endl;
+            break;
+        }
+        else if(w != 0) {
+            cout << "You have lost the game." << endl;
             break;
         }
         else {
             int col, row;
-            cout << "Player " << currentPlayer << ", enter the row of your choice (1-3): ";
-            cin >> row;
-            cout << "Player " << currentPlayer << ", enter the column of your choice (1-3): ";
-            cin >> col; 
-            if(board.get(--row, --col) == 0) {
+            if(currentPlayer == player) {
+                // Let the player decide on the next move
+                cout << "Player " << currentPlayer << ", enter the row of your choice (1-3): ";
+                cin >> row;
+                cout << "Player " << currentPlayer << ", enter the column of your choice (1-3): ";
+                cin >> col; 
+                row--; col--;
+            }
+            else {
+                // Make a request to open AI to determine the next move of the AI player
+                ostringstream userMessage;
+                userMessage << "The current board is " << board.to_string() << ". ";
+                userMessage << "You are player " << currentPlayer << ". ";
+                userMessage << "Make your move.";
+                vector<int> position = request("src/tic_request.json", userMessage.str());
+                row = position[0]; col = position[1];
+            }
+            if(board.get(row, col) == 0) {
+                // If the requested position is empty, update the board and current player
                 board.set(row, col, currentPlayer);
+                cout << "The current board is:\n";
                 board.print();
                 if(currentPlayer == 1)
                     currentPlayer = 2;

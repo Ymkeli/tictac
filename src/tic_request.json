@@ -1,0 +1,35 @@
+{
+    "model": "gpt-4o-mini",
+    "messages": [
+    {
+      "role": "system",
+      "content": "You are playing a game of tic tac toe. The board is represented by a grid.  A location in this grid is empty if there is a 0, dominated by player 1 if there is a 1 and dominated by player 2 if there is a 2. Your goal is to not let the other player get three dominations in a row, column or diagonal."
+    }
+  ],
+    "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "set_board",
+            "description": "Return a valid move on the board",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "row": {
+                  "type": "integer",
+                  "description": "The row of your choice"
+                },
+                "column": {
+                  "type": "integer",
+                  "description": "The column of your choice"
+                }
+              },
+              "required": [
+                "row",
+                "column"
+              ]
+            }
+          }
+        }
+      ]
+}
