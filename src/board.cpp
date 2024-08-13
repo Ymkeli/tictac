@@ -1,6 +1,6 @@
 #include "board.h"
 
-// Constructor
+/* Constructor */
 Board::Board(int r, int c) {
     rows = r;
     cols = c;
@@ -13,7 +13,7 @@ Board::Board(int r, int c) {
     }
 }
 
-// Translate the player number in the grid into a player symbol for printing
+/* Translate the player number in the grid into a symbol for printing */
 static string player_tag (int x) {
     switch (x) {
         case 0:
@@ -30,7 +30,7 @@ static string player_tag (int x) {
     return "";
 }
 
-// Print board
+/* Print board */
 void Board::print() const {
     for(int x = 0; x < rows; x++) {
         for(int y = 0; y < cols; y++) {
@@ -40,17 +40,18 @@ void Board::print() const {
     }
 }
 
-// Gets value at position (row,col) from the board
+/* Gets value at position (row,col) from the board */
 int Board::get(int row, int col) const {
     return grid[row][col];
 }
 
-// Set value at position (row,col) at the board
+/* Set value at position (row,col) at the board */
 void Board::set(int row, int col, int val) {
     grid[row][col] = val;
 }
 
-// Checks if there is a winner for the current board. Returns the player if yes (1 or 2), and 0 otherwise.
+/* Checks if there is a winner for the current board. 
+   Returns the player if yes (1 or 2), and 0 otherwise. */
 int Board::winner() const {
     // Check rows
     for(int r = 0; r < rows; r++) {
@@ -73,6 +74,7 @@ int Board::winner() const {
     return 0; //no winner    
 }
 
+/* Converts the grid of the board into a string*/
 string Board::to_string() const {
     ostringstream oss;
     oss << "[";
